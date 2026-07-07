@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="SuperEletroLar — Tecnologia que transforma seu lar. Eletrodomésticos, linha branca e eletrônicos para a família brasileira.">
+  <meta name="theme-color" content="#0066FF">
+  <meta name="keywords" content="eletrodomésticos, geladeira, fogão, smart tv, linha branca, eletrônicos, ofertas">
+  <meta name="author" content="SuperEletroLar">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SuperEletroLar — Tecnologia que transforma seu lar">
+  <meta property="og:description" content="Eletrodomésticos, linha branca e eletrônicos com as melhores condições para a família brasileira.">
+  <meta property="og:image" content="assets/logo-super-eletrolar.png">
+  <meta property="og:url" content="https://supereletrolar.com.br">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="SuperEletroLar">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SuperEletroLar — Tecnologia que transforma seu lar">
+  <meta name="twitter:description" content="Eletrodomésticos e eletrônicos para toda a família brasileira.">
+  <meta name="twitter:image" content="assets/logo-super-eletrolar.png">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/logo-super-eletrolar.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="SuperEletroLar">
+
+  <title>SuperEletroLar — Tecnologia que transforma seu lar</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    "name": "SuperEletroLar",
+    "description": "Tecnologia que transforma seu lar. Eletrodomésticos e eletrônicos para a família brasileira.",
+    "url": "https://supereletrolar.com.br",
+    "logo": "assets/logo.svg",
+    "telephone": "0800-123-4567",
+    "email": "contato@supereletrolar.com.br",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "BR",
+      "addressLocality": "São Paulo"
+    },
+    "priceRange": "$$",
+    "openingHours": "Mo-Sa 08:00-22:00"
+  }
+  </script>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Ir para o conteúdo principal</a>
+  <div class="offline-badge" id="offline-badge" role="status">📡 Você está offline</div>
+  <div class="loading-spinner hidden" id="app-loading" style="position:fixed;inset:0;z-index:600;background:var(--color-bg)"><div class="spinner"></div> Carregando...</div>
+
+  <!-- HEADER -->
+  <header class="app-header" role="banner">
+    <button class="header-back" id="btn-back" aria-label="Voltar" title="Voltar">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+    </button>
+
+    <a href="#" class="header-brand" id="brand-link" aria-label="SuperEletroLar — Página inicial">
+      <img src="assets/logo.svg" alt="" width="40" height="40">
+      <div>
+        <div class="brand-name">SuperEletroLar</div>
+        <div class="brand-slogan">Tecnologia que transforma seu lar</div>
+      </div>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Navegação principal">
+      <a href="#" data-view="home" class="active">Início</a>
+      <a href="#" data-view="categories">Categorias</a>
+      <a href="#" data-view="offers">Ofertas</a>
+      <a href="#" data-view="account">Conta</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" id="btn-search" aria-label="Buscar produtos" title="Buscar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+        </svg>
+      </button>
+      <button class="icon-btn" id="btn-theme" aria-label="Alternar tema claro/escuro" title="Tema">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" id="icon-theme">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+        </svg>
+      </button>
+      <button class="icon-btn" id="btn-cart-header" aria-label="Carrinho de compras" title="Carrinho">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>
+          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+        </svg>
+        <span class="badge" id="cart-badge" data-count="0" aria-label="Itens no carrinho">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- TOAST -->
+  <div class="toast-container" id="toast-container" role="status" aria-live="polite"></div>
+
+  <main id="main-content" class="main-content">
+
+    <!-- VIEW: HOME -->
+    <section class="view active" id="view-home" aria-label="Página inicial">
+
+      <div class="hero" role="region" aria-label="Destaque principal">
+        <div class="hero-content">
+          <span class="hero-emoji" aria-hidden="true">⚡🏠</span>
+          <h1>Tecnologia que transforma seu lar</h1>
+          <p>Eletrodomésticos, linha branca e eletrônicos com as melhores condições para a família brasileira.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" data-action="explore">Explorar produtos</button>
+            <button class="btn btn-secondary" data-action="offers">Ver ofertas 🔥</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="search-bar" role="search">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+        </svg>
+        <label for="search-input" class="sr-only">Buscar produtos</label>
+        <input type="search" id="search-input" placeholder="Buscar geladeira, TV, fogão..." autocomplete="off">
+      </div>
+
+      <div class="promo-banners">
+        <div class="promo-card blue">
+          <h3>🏷️ Até 40% OFF em Linha Branca</h3>
+          <p>Geladeiras, fogões e lavadoras com frete grátis</p>
+        </div>
+        <div class="promo-card orange">
+          <h3>📺 Smart TVs em 12x sem juros</h3>
+          <p>As melhores marcas com entrega rápida</p>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <h2 class="section-title">Categorias</h2>
+        <button class="section-link" data-action="categories">Ver todas →</button>
+      </div>
+
+      <div class="carousel-wrapper">
+        <button class="carousel-arrow prev" id="cat-prev" aria-label="Categorias anteriores" disabled>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div class="categories-scroll" id="categories-scroll" role="tablist" aria-label="Categorias de produtos">
+          <!-- Preenchido via JS -->
+        </div>
+        <button class="carousel-arrow next" id="cat-next" aria-label="Próximas categorias">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+
+      <div class="section-header">
+        <h2 class="section-title">🔥 Destaques</h2>
+        <button class="section-link" data-action="explore">Ver mais →</button>
+      </div>
+
+      <div class="products-grid" id="products-grid" role="list" aria-label="Produtos em destaque">
+        <!-- Preenchido via JS -->
+      </div>
+    </section>
+
+    <!-- VIEW: CATEGORIAS -->
+    <section class="view" id="view-categories" aria-label="Categorias">
+      <div class="section-header">
+        <h2 class="section-title">Todas as Categorias</h2>
+      </div>
+      <div class="products-grid" id="categories-grid" style="grid-template-columns: repeat(2, 1fr);">
+        <!-- Preenchido via JS -->
+      </div>
+      <div class="section-header" style="margin-top: 2rem;">
+        <h2 class="section-title" id="category-products-title">Produtos</h2>
+      </div>
+      <div class="products-grid" id="category-products-grid" role="list"></div>
+    </section>
+
+    <!-- VIEW: OFERTAS -->
+    <section class="view" id="view-offers" aria-label="Ofertas especiais">
+      <div class="hero" style="min-height: 200px; margin-bottom: 1.5rem;">
+        <div class="hero-content">
+          <span class="hero-emoji" aria-hidden="true">🔥💰</span>
+          <h1>Ofertas Imperdíveis</h1>
+          <p>Descontos exclusivos em produtos selecionados para seu lar.</p>
+        </div>
+      </div>
+      <div class="products-grid" id="offers-grid" role="list" aria-label="Produtos em oferta"></div>
+    </section>
+
+    <!-- VIEW: CARRINHO -->
+    <section class="view" id="view-cart" aria-label="Carrinho de compras">
+      <div class="section-header">
+        <h2 class="section-title">🛒 Meu Carrinho</h2>
+      </div>
+      <div id="cart-content">
+        <!-- Preenchido via JS -->
+      </div>
+    </section>
+
+    <!-- VIEW: DETALHE DO PRODUTO -->
+    <section class="view" id="view-product" aria-label="Detalhe do produto">
+      <div id="product-detail-content"></div>
+    </section>
+
+    <!-- VIEW: CHECKOUT -->
+    <section class="view" id="view-checkout" aria-label="Finalizar compra">
+      <div class="section-header">
+        <h2 class="section-title">💳 Checkout</h2>
+      </div>
+      <div id="checkout-content"></div>
+    </section>
+
+    <!-- VIEW: RASTREAR PEDIDO -->
+    <section class="view" id="view-track" aria-label="Rastrear pedido">
+      <div class="section-header">
+        <h2 class="section-title">📦 Rastrear Pedido</h2>
+      </div>
+      <div class="checkout-panel">
+        <p style="color:var(--color-text-secondary);margin-bottom:1rem">Digite o código de rastreamento do seu pedido.</p>
+        <form id="track-form">
+          <div class="form-group">
+            <label class="form-label" for="track-code">Código de rastreamento</label>
+            <input class="form-input" id="track-code" placeholder="Ex: SEL1A2B3C4D" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%">Rastrear</button>
+        </form>
+        <div id="track-result"></div>
+      </div>
+    </section>
+
+    <!-- VIEW: CONTA -->
+    <section class="view" id="view-account" aria-label="Minha conta">
+      <div class="profile-header">
+        <div class="profile-avatar" aria-hidden="true">👤</div>
+        <h2>Bem-vindo à SuperEletroLar</h2>
+        <p style="color: var(--color-text-secondary); margin-top: 0.5rem;">Entre ou cadastre-se para aproveitar todas as vantagens</p>
+        <div style="display: flex; gap: 0.75rem; justify-content: center; margin-top: 1.5rem;">
+          <button class="btn btn-primary btn-sm">Entrar</button>
+          <button class="btn btn-outline btn-sm">Cadastrar</button>
+        </div>
+      </div>
+
+      <nav class="menu-list" aria-label="Menu da conta">
+        <button class="menu-item" type="button">
+          <span class="menu-item-icon" aria-hidden="true">📦</span>
+          <span class="menu-item-text">Meus Pedidos</span>
+          <span class="menu-item-arrow" aria-hidden="true">›</span>
+        </button>
+        <button class="menu-item" type="button">
+          <span class="menu-item-icon" aria-hidden="true">❤️</span>
+          <span class="menu-item-text">Favoritos</span>
+          <span class="menu-item-arrow" aria-hidden="true">›</span>
+        </button>
+        <button class="menu-item" type="button">
+          <span class="menu-item-icon" aria-hidden="true">📍</span>
+          <span class="menu-item-text">Endereços</span>
+          <span class="menu-item-arrow" aria-hidden="true">›</span>
+        </button>
+        <button class="menu-item" type="button">
+          <span class="menu-item-icon" aria-hidden="true">💳</span>
+          <span class="menu-item-text">Formas de Pagamento</span>
+          <span class="menu-item-arrow" aria-hidden="true">›</span>
+        </button>
+        <button class="menu-item" type="button">
+          <span class="menu-item-icon" aria-hidden="true">🔔</span>
+          <span class="menu-item-text">Notificações</span>
+          <span class="menu-item-arrow" aria-hidden="true">›</span>
+        </button>
+        <button class="menu-item" type="button">
+          <span class="menu-item-icon" aria-hidden="true">❓</span>
+          <span class="menu-item-text">Ajuda e Suporte</span>
+          <span class="menu-item-arrow" aria-hidden="true">›</span>
+        </button>
+      </nav>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name" style="font-size: 1.25rem;">SuperEletroLar</div>
+        <p>Tecnologia que transforma seu lar. Eletrodomésticos e eletrônicos para toda a família brasileira.</p>
+      </div>
+      <div>
+        <h3 class="footer-title">Institucional</h3>
+        <ul class="footer-links">
+          <li><a href="#">Sobre nós</a></li>
+          <li><a href="#">Trabalhe conosco</a></li>
+          <li><a href="#">Política de privacidade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-title">Atendimento</h3>
+        <ul class="footer-links">
+          <li><a href="#">Central de ajuda</a></li>
+          <li><a href="#">Trocas e devoluções</a></li>
+          <li><a href="#" data-view="track">Rastrear pedido</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-title">Contato</h3>
+        <ul class="footer-links">
+          <li><a href="tel:08001234567">📞 0800 123 4567</a></li>
+          <li><a href="mailto:contato@supereletrolar.com.br">✉️ contato@supereletrolar.com.br</a></li>
+          <li><a href="#">💬 WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 SuperEletroLar. Todos os direitos reservados. Feito com ⚡ para o lar brasileiro.</p>
+    </div>
+  </footer>
+
+  <!-- BOTTOM NAV (estilo app) -->
+  <nav class="bottom-nav" aria-label="Navegação inferior">
+    <button class="nav-item active" data-view="home" aria-label="Início" aria-current="page">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <span>Início</span>
+    </button>
+    <button class="nav-item" data-view="categories" aria-label="Categorias">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/>
+        <rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/>
+      </svg>
+      <span>Categorias</span>
+    </button>
+    <button class="nav-item" data-view="offers" aria-label="Ofertas">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>
+      </svg>
+      <span>Ofertas</span>
+    </button>
+    <button class="nav-item" data-view="cart" aria-label="Carrinho">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>
+        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+      </svg>
+      <span>Carrinho</span>
+    </button>
+    <button class="nav-item" data-view="account" aria-label="Minha conta">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+      </svg>
+      <span>Conta</span>
+    </button>
+  </nav>
+
+  <script src="js/api.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

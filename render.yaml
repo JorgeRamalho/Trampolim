@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: super-eletrolar
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm run deploy:build
+    startCommand: npm run start:prod
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PORT
+        value: 4000

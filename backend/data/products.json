@@ -1,0 +1,257 @@
+[
+  {
+    "id": 1,
+    "name": "Geladeira Frost Free 443L Inox",
+    "slug": "geladeira-frost-free-443l-inox",
+    "category": "geladeiras",
+    "brand": "Brastemp",
+    "price": 3299.90,
+    "oldPrice": 4299.90,
+    "rating": 4.8,
+    "reviews": 234,
+    "badge": "-23%",
+    "emoji": "🧊",
+    "image": "https://images.unsplash.com/photo-1571175443880-49e1b58a9b91?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1571175443880-49e1b58a9b91?w=800&q=80",
+      "https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?w=800&q=80"
+    ],
+    "description": "Geladeira Frost Free com tecnologia avançada de refrigeração. Painel digital, prateleiras em vidro temperado e compartimento extra frio. Economia de energia classe A.",
+    "specs": { "capacidade": "443L", "voltagem": "110V/220V", "cor": "Inox", "degelo": "Frost Free" },
+    "stock": 15,
+    "freeShipping": true
+  },
+  {
+    "id": 2,
+    "name": "Fogão 5 Bocas com Forno Elétrico",
+    "slug": "fogao-5-bocas-forno-eletrico",
+    "category": "fogoes",
+    "brand": "Electrolux",
+    "price": 1899.00,
+    "oldPrice": 2299.00,
+    "rating": 4.6,
+    "reviews": 189,
+    "badge": "-17%",
+    "emoji": "🔥",
+    "image": "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=800&q=80"
+    ],
+    "description": "Fogão 5 bocas com mesa de vidro temperado, queimadores de alta eficiência e forno elétrico com timer digital. Acendimento automático.",
+    "specs": { "bocas": "5", "tipo": "Embutir", "forno": "Elétrico 96L", "cor": "Preto" },
+    "stock": 22,
+    "freeShipping": true
+  },
+  {
+    "id": 3,
+    "name": "Lavadora 12kg Turbo Economia",
+    "slug": "lavadora-12kg-turbo-economia",
+    "category": "lavadoras",
+    "brand": "Consul",
+    "price": 2499.90,
+    "oldPrice": 3199.90,
+    "rating": 4.7,
+    "reviews": 312,
+    "badge": "-22%",
+    "emoji": "🫧",
+    "image": "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=800&q=80"
+    ],
+    "description": "Lavadora de roupas 12kg com motor Turbo e 12 programas de lavagem. Tecnologia EcoWash que economiza até 40% de água e energia.",
+    "specs": { "capacidade": "12kg", "programas": "12", "rpm": "1200", "cor": "Branca" },
+    "stock": 18,
+    "freeShipping": true
+  },
+  {
+    "id": 4,
+    "name": "Smart TV 55\" 4K UHD HDR",
+    "slug": "smart-tv-55-4k-uhd-hdr",
+    "category": "tvs",
+    "brand": "Samsung",
+    "price": 2799.00,
+    "oldPrice": 3499.00,
+    "rating": 4.9,
+    "reviews": 567,
+    "badge": "-20%",
+    "emoji": "📺",
+    "image": "https://images.unsplash.com/photo-1593359677877-bcde3a3d7718?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1593359677877-bcde3a3d7718?w=800&q=80",
+      "https://images.unsplash.com/photo-1461151304267-38535e780c79?w=800&q=80"
+    ],
+    "description": "Smart TV 55 polegadas com resolução 4K UHD, HDR10+ e sistema operacional Tizen. Controle por voz, Wi-Fi e Bluetooth integrados.",
+    "specs": { "tela": "55\"", "resolucao": "4K UHD", "hdr": "HDR10+", "smart": "Tizen" },
+    "stock": 30,
+    "freeShipping": true
+  },
+  {
+    "id": 5,
+    "name": "Ar-condicionado Split 12000 BTUs",
+    "slug": "ar-condicionado-split-12000-btus",
+    "category": "ar",
+    "brand": "LG",
+    "price": 2199.90,
+    "oldPrice": 2799.90,
+    "rating": 4.5,
+    "reviews": 145,
+    "badge": "-21%",
+    "emoji": "❄️",
+    "image": "https://images.unsplash.com/photo-1631545806609-95fceaa9a626?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1631545806609-95fceaa9a626?w=800&q=80"
+    ],
+    "description": "Ar-condicionado Split Inverter 12000 BTUs. Modo silencioso, filtro anti-bactéria e controle via app. Ideal para ambientes de até 18m².",
+    "specs": { "btus": "12000", "tipo": "Split Inverter", "area": "18m²", "gas": "R-32" },
+    "stock": 12,
+    "freeShipping": false
+  },
+  {
+    "id": 6,
+    "name": "Micro-ondas 32L com Grill",
+    "slug": "micro-ondas-32l-com-grill",
+    "category": "micro",
+    "brand": "Panasonic",
+    "price": 699.90,
+    "oldPrice": 899.90,
+    "rating": 4.4,
+    "reviews": 98,
+    "badge": "-22%",
+    "emoji": "📡",
+    "image": "https://images.unsplash.com/photo-1585659722983-1f0d9992f331?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1585659722983-1f0d9992f331?w=800&q=80"
+    ],
+    "description": "Micro-ondas 32 litros com função grill, 10 níveis de potência e menu automático com 18 receitas pré-programadas.",
+    "specs": { "capacidade": "32L", "potencia": "1000W", "grill": "Sim", "cor": "Inox" },
+    "stock": 45,
+    "freeShipping": true
+  },
+  {
+    "id": 7,
+    "name": "Smartphone 256GB 5G Câmera Pro",
+    "slug": "smartphone-256gb-5g-camera-pro",
+    "category": "celulares",
+    "brand": "Motorola",
+    "price": 3499.00,
+    "oldPrice": 4299.00,
+    "rating": 4.8,
+    "reviews": 423,
+    "badge": "-19%",
+    "emoji": "📱",
+    "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=80",
+      "https://images.unsplash.com/photo-1598327275667-578b0d4f9637?w=800&q=80"
+    ],
+    "description": "Smartphone com 256GB de armazenamento, conectividade 5G e câmera tripla de 108MP com estabilização óptica. Tela AMOLED 6.7\" 120Hz.",
+    "specs": { "armazenamento": "256GB", "ram": "8GB", "camera": "108MP", "tela": "6.7\" AMOLED" },
+    "stock": 50,
+    "freeShipping": true
+  },
+  {
+    "id": 8,
+    "name": "Notebook 15\" i7 16GB SSD 512GB",
+    "slug": "notebook-15-i7-16gb-ssd-512gb",
+    "category": "notebooks",
+    "brand": "Dell",
+    "price": 4599.90,
+    "oldPrice": 5499.90,
+    "rating": 4.7,
+    "reviews": 201,
+    "badge": "-16%",
+    "emoji": "💻",
+    "image": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=80"
+    ],
+    "description": "Notebook ultrafino com processador Intel Core i7, 16GB RAM e SSD 512GB NVMe. Tela Full HD IPS, teclado retroiluminado e bateria de longa duração.",
+    "specs": { "processador": "Intel i7", "ram": "16GB", "ssd": "512GB", "tela": "15.6\" FHD" },
+    "stock": 8,
+    "freeShipping": true
+  },
+  {
+    "id": 9,
+    "name": "Geladeira Duplex 380L Branca",
+    "slug": "geladeira-duplex-380l-branca",
+    "category": "geladeiras",
+    "brand": "Consul",
+    "price": 2599.00,
+    "oldPrice": 3199.00,
+    "rating": 4.5,
+    "reviews": 167,
+    "badge": "-19%",
+    "emoji": "🧊",
+    "image": "https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?w=800&q=80"
+    ],
+    "description": "Geladeira duplex 380 litros com design compacto. Prateleiras reguláveis, gaveta para frutas e legumes, e sistema de refrigeração eficiente.",
+    "specs": { "capacidade": "380L", "tipo": "Duplex", "cor": "Branca", "degelo": "Manual" },
+    "stock": 20,
+    "freeShipping": true
+  },
+  {
+    "id": 10,
+    "name": "Fogão Cooktop 4 Bocas Vitrocerâmico",
+    "slug": "fogao-cooktop-4-bocas-vitroceramico",
+    "category": "fogoes",
+    "brand": "Brastemp",
+    "price": 1299.90,
+    "oldPrice": 1599.90,
+    "rating": 4.6,
+    "reviews": 89,
+    "badge": "-19%",
+    "emoji": "🔥",
+    "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80"
+    ],
+    "description": "Cooktop 4 bocas com mesa de vitrocerâmica, queimadores tripla chama e acendimento superautomático. Design elegante para cozinhas modernas.",
+    "specs": { "bocas": "4", "mesa": "Vitrocerâmica", "tipo": "Cooktop", "cor": "Preto" },
+    "stock": 25,
+    "freeShipping": true
+  },
+  {
+    "id": 11,
+    "name": "Smart TV 65\" QLED 120Hz",
+    "slug": "smart-tv-65-qled-120hz",
+    "category": "tvs",
+    "brand": "TCL",
+    "price": 4999.00,
+    "oldPrice": 6499.00,
+    "rating": 4.9,
+    "reviews": 312,
+    "badge": "-23%",
+    "emoji": "📺",
+    "image": "https://images.unsplash.com/photo-1461151304267-38535e780c79?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1461151304267-38535e780c79?w=800&q=80"
+    ],
+    "description": "Smart TV QLED 65 polegadas com taxa de atualização 120Hz, Dolby Vision e Atmos. Google TV integrado com acesso a todos os streamings.",
+    "specs": { "tela": "65\"", "painel": "QLED", "hz": "120Hz", "smart": "Google TV" },
+    "stock": 10,
+    "freeShipping": true
+  },
+  {
+    "id": 12,
+    "name": "Lava e Seca 11kg Inverter",
+    "slug": "lava-e-seca-11kg-inverter",
+    "category": "lavadoras",
+    "brand": "Electrolux",
+    "price": 3899.90,
+    "oldPrice": 4799.90,
+    "rating": 4.8,
+    "reviews": 278,
+    "badge": "-19%",
+    "emoji": "🫧",
+    "image": "https://images.unsplash.com/photo-1610557892470-55d9a8c0afbf?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1610557892470-55d9a8c0afbf?w=800&q=80"
+    ],
+    "description": "Lava e Seca 11kg com motor Inverter, 15 programas de lavagem e 5 de secagem. Tecnologia Vapour Care elimina 99,9% das bactérias.",
+    "specs": { "capacidade": "11kg", "tipo": "Lava e Seca", "motor": "Inverter", "programas": "15" },
+    "stock": 7,
+    "freeShipping": true
+  }
+]

@@ -1,0 +1,136 @@
+/**
+ * SuperEletroLar — API Client
+ */
+
+const API_BASE = (() => {
+  const { hostname, port, protocol } = window.location;
+  const isLocal = hostname === 'localhost' || hostname === '127.0.0.1';
+  if (!isLocal || port === '4000' || port === '' || port === '80' || port === '443') {
+    return '/api';
+  }
+  return `${protocol}//${hostname}:4000/api`;
+})();
+
+class ApiClient {
+  constructor() {
+    this.token = localStorage.getItem('sel-token') || null;
+  }
+
+  setToken(token) {
+    this.token = token;
+    if (token) localStorage.setItem('sel-token', token);
+    else localStorage.removeItem('sel-token');
+  }
+
+  getUser() {
+    const data = localStorage.getItem('sel-user');
+    return data ? JSON.parse(data) : null;
+  }
+
+  setUser(user) {
+    if (user) localStorage.setItem('sel-user', JSON.stringify(user));
+    else localStorage.removeItem('sel-user');
+  }
+
+  async request(endpoint, options = {}) {
+    const headers = { 'Content-Type': 'application/json', ...options.headers };
+    if (this.token) headers.Authorization = `Bearer ${this.token}`;
+
+    const response = await fetch(`${API_BASE}${endpoint}`, { ...options, headers });
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) throw new Error(data.error || `Erro ${response.status}`);
+    return data;
+  }
+
+  /* Auth */
+  async login(email, password) {
+    const data = await this.request('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    });
+    this.setToken(data.token);
+    this.setUser(data.user);
+    return data;
+  }
+
+  async register(name, email, password, phone) {
+    const data = await this.request('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({ name, email, password, phone }),
+    });
+    this.setToken(data.token);
+    this.setUser(data.user);
+    return data;
+  }
+
+  logout() {
+    this.setToken(null);
+    this.setUser(null);
+  }
+
+  async getMe() {
+    return this.request('/auth/me');
+  }
+
+  /* Products */
+  async getProducts(params = {}) {
+    const query = new URLSearchParams(params).toString();
+    return this.request(`/products${query ? `?${query}` : ''}`);
+  }
+
+  async getProduct(id) {
+    return this.request(`/products/${id}`);
+  }
+
+  async getCategories() {
+    return this.request('/categories');
+  }
+
+  /* Orders */
+  async createOrder(orderData) {
+    return this.request('/orders', {
+      method: 'POST',
+      body: JSON.stringify(orderData),
+    });
+  }
+
+  async getOrders() {
+    return this.request('/orders');
+  }
+
+  async trackOrder(code) {
+    return this.request(`/orders/track/${code}`);
+  }
+
+  /* Payments */
+  async createPixPayment(orderId, amount) {
+    return this.request('/payments/pix', {
+      method: 'POST',
+      body: JSON.stringify({ orderId, amount }),
+    });
+  }
+
+  async confirmPixPayment(paymentId) {
+    return this.request('/payments/pix/confirm', {
+      method: 'POST',
+      body: JSON.stringify({ paymentId }),
+    });
+  }
+
+  async payWithCard(cardData) {
+    return this.request('/payments/card', {
+      method: 'POST',
+      body: JSON.stringify(cardData),
+    });
+  }
+
+  async payWithMercadoPago(orderId, amount, paymentMethod = 'pix') {
+    return this.request('/payments/mercadopago', {
+      method: 'POST',
+      body: JSON.stringify({ orderId, amount, paymentMethod }),
+    });
+  }
+}
+
+window.api = new ApiClient();
