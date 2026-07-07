@@ -9,6 +9,19 @@ function generatePixCode(orderId, amount) {
   return `00020126580014BR.GOV.BCB.PIX0136${random}520400005303986540${amount.toFixed(2)}5802BR5913SuperEletroLar6009SAO PAULO62070503***6304${orderId.slice(0, 4).toUpperCase()}`;
 }
 
+function approveOrder(orderId, paymentMethod) {
+  const orders = store.getOrders();
+  const order = orders.find(o => o.id === orderId);
+  if (!order || order.status === 'paid') return order;
+
+  order.status = 'paid';
+  if (paymentMethod) order.payment = paymentMethod;
+  order.trackingCode = order.trackingCode || `SEL${Date.now().toString(36).toUpperCase()}`;
+  store.saveOrders(orders);
+  store.decrementStock(order.items);
+  return order;
+}
+
 router.post('/pix', (req, res) => {
   const { orderId, amount } = req.body;
 
@@ -46,16 +59,9 @@ router.post('/pix/confirm', (req, res) => {
   payment.approvedAt = new Date().toISOString();
   store.savePayments(payments);
 
-  const orders = store.getOrders();
-  const order = orders.find(o => o.id === payment.orderId);
-  if (order) {
-    order.status = 'paid';
-    order.payment = 'pix';
-    order.trackingCode = `SEL${Date.now().toString(36).toUpperCase()}`;
-    store.saveOrders(orders);
-  }
+  const approved = approveOrder(payment.orderId, 'pix');
 
-  res.json({ status: 'approved', order, trackingCode: order?.trackingCode });
+  res.json({ status: 'approved', order: approved, trackingCode: approved?.trackingCode });
 });
 
 router.post('/card', (req, res) => {
@@ -84,15 +90,8 @@ router.post('/card', (req, res) => {
   store.savePayments(payments);
 
   if (isApproved) {
-    const orders = store.getOrders();
-    const order = orders.find(o => o.id === orderId);
-    if (order) {
-      order.status = 'paid';
-      order.payment = 'credit_card';
-      order.trackingCode = `SEL${Date.now().toString(36).toUpperCase()}`;
-      store.saveOrders(orders);
-    }
-    return res.json({ status: 'approved', payment, trackingCode: order?.trackingCode });
+    const approved = approveOrder(orderId, 'credit_card');
+    return res.json({ status: 'approved', payment, trackingCode: approved?.trackingCode });
   }
 
   res.status(400).json({ status: 'rejected', error: 'Cartão recusado. Verifique os dados ou tente outro cartão.' });
@@ -118,16 +117,9 @@ router.post('/mercadopago', (req, res) => {
     payments.push(payment);
     store.savePayments(payments);
 
-    const orders = store.getOrders();
-    const order = orders.find(o => o.id === orderId);
-    if (order) {
-      order.status = 'paid';
-      order.payment = 'mercadopago';
-      order.trackingCode = `SEL${Date.now().toString(36).toUpperCase()}`;
-      store.saveOrders(orders);
-    }
+    const approved = approveOrder(orderId, 'mercadopago');
 
-    return res.json(payment);
+    return res.json({ ...payment, trackingCode: approved?.trackingCode });
   }
 
   res.json({

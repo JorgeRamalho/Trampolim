@@ -8,6 +8,8 @@ import productRoutes from './routes/products.js';
 import categoryRoutes from './routes/categories.js';
 import orderRoutes from './routes/orders.js';
 import paymentRoutes from './routes/payments.js';
+import cepRoutes from './routes/cep.js';
+import carouselRoutes from './routes/carousel.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.join(__dirname, '.env') });
@@ -44,6 +46,8 @@ app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/cep', cepRoutes);
+app.use('/api/carousel', carouselRoutes);
 
 app.get('/api/health', (_req, res) => {
   res.json({

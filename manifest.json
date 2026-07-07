@@ -17,13 +17,21 @@
       "purpose": "any"
     },
     {
-      "src": "assets/logo-super-eletrolar.png",
+      "src": "assets/logo.svg",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/svg+xml",
+      "purpose": "maskable"
     }
   ],
-  "screenshots": [],
+  "screenshots": [
+    {
+      "src": "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80",
+      "sizes": "800x600",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "SuperEletroLar — Página inicial"
+    }
+  ],
   "shortcuts": [
     {
       "name": "Ofertas",

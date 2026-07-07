@@ -7,6 +7,10 @@ services:
     buildCommand: npm run deploy:build
     startCommand: npm run start:prod
     healthCheckPath: /api/health
+    disk:
+      name: super-eletrolar-data
+      mountPath: /opt/render/project/src/backend/data
+      sizeGB: 1
     envVars:
       - key: NODE_ENV
         value: production
@@ -14,3 +18,5 @@ services:
         generateValue: true
       - key: PORT
         value: 4000
+      - key: FRONTEND_URL
+        value: https://super-eletrolar.onrender.com

@@ -27,7 +27,10 @@ jobs:
         run: |
           test -f react/dist/index.html
           test -f index.html
-          node --input-type=module -e "import p from './backend/data/products.json' with { type: 'json' }; if(!p.length) throw new Error('No products')"
+          test -f robots.txt
+          test -f sitemap.xml
+          node --input-type=module -e "import p from './backend/data/products.json' with { type: 'json' }; if(p.length < 16) throw new Error('Expected 16+ products')"
+          node --input-type=module -e "import c from './backend/data/carousel.json' with { type: 'json' }; if(!c.length) throw new Error('No carousel slides')"
 
       - name: Deploy to Render
         if: ${{ secrets.RENDER_DEPLOY_HOOK != '' }}

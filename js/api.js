@@ -87,6 +87,14 @@ class ApiClient {
     return this.request('/categories');
   }
 
+  async getCarousel() {
+    return this.request('/carousel');
+  }
+
+  async getCep(cep) {
+    return this.request(`/cep/${cep.replace(/\D/g, '')}`);
+  }
+
   /* Orders */
   async createOrder(orderData) {
     return this.request('/orders', {

@@ -8,6 +8,7 @@ const SuperEletroLar = (() => {
 
   let CATEGORIES = [];
   let PRODUCTS = [];
+  let HERO_SLIDES = [];
   let cart = JSON.parse(localStorage.getItem('sel-cart') || '[]');
   let favorites = JSON.parse(localStorage.getItem('sel-favorites') || '[]');
   let currentView = 'home';
@@ -15,6 +16,9 @@ const SuperEletroLar = (() => {
   let activeCategory = null;
   let currentProduct = null;
   let checkoutStep = 1;
+  let selectedShipping = 'standard';
+  let heroIndex = 0;
+  let heroTimer = null;
   let currentOrder = null;
   let currentPayment = null;
   let deferredPrompt = null;
@@ -23,6 +27,12 @@ const SuperEletroLar = (() => {
   const installment = (p) => `ou 12x de ${formatPrice(p / 12)} sem juros`;
   const saveCart = () => localStorage.setItem('sel-cart', JSON.stringify(cart));
   const saveFavorites = () => localStorage.setItem('sel-favorites', JSON.stringify(favorites));
+  const getShippingCost = () => selectedShipping === 'express' ? 49.90 : 0;
+  const getCartSubtotal = () => cart.reduce((s, i) => {
+    const p = PRODUCTS.find(pr => pr.id === i.id);
+    return s + (p ? p.price * i.qty : 0);
+  }, 0);
+  const getCartTotal = () => getCartSubtotal() + getShippingCost();
 
   function renderStars(rating) {
     const full = Math.floor(rating);
@@ -32,16 +42,25 @@ const SuperEletroLar = (() => {
   /* ── API Data Loading ── */
   async function loadData() {
     try {
-      [CATEGORIES, PRODUCTS] = await Promise.all([
+      [CATEGORIES, PRODUCTS, HERO_SLIDES] = await Promise.all([
         api.getCategories(),
         api.getProducts(),
+        api.getCarousel(),
       ]);
     } catch {
       showToast('⚠️ Modo offline — usando dados em cache');
       CATEGORIES = getFallbackCategories();
       PRODUCTS = getFallbackProducts();
+      HERO_SLIDES = getFallbackHero();
     }
     renderAll();
+  }
+
+  function getFallbackHero() {
+    return [
+      { id: 1, badge: '⚡ Novidade', title: 'Tecnologia que transforma seu lar', subtitle: 'Eletrodomésticos para a família brasileira.', image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=1200&q=80', gradient: 'gradient-brand', cta: 'explore', ctaLabel: 'Explorar produtos' },
+      { id: 2, badge: '🔥 Ofertas', title: 'Até 40% OFF em Linha Branca', subtitle: 'Geladeiras, fogões e lavadoras.', image: 'https://images.unsplash.com/photo-1571175443880-49e1b58a9b91?w=1200&q=80', gradient: 'gradient-warm', cta: 'offers', ctaLabel: 'Ver ofertas' },
+    ];
   }
 
   function getFallbackCategories() {
@@ -112,28 +131,133 @@ const SuperEletroLar = (() => {
     const scroll = document.getElementById('categories-scroll');
     if (scroll) {
       scroll.innerHTML = CATEGORIES.map(cat => `
-        <button class="category-card" role="tab" data-category="${cat.id}" aria-label="Categoria ${cat.name}">
-          <span class="category-icon" aria-hidden="true">${cat.icon}</span>
+        <button class="category-card has-image" role="tab" data-category="${cat.id}" aria-label="Categoria ${cat.name}">
+          ${cat.image ? `<img class="category-img" src="${cat.image}" alt="${cat.name}" loading="lazy" width="120" height="80">` : `<span class="category-icon" aria-hidden="true">${cat.icon}</span>`}
           <span class="category-name">${cat.name}</span>
         </button>`).join('');
     }
     const grid = document.getElementById('categories-grid');
     if (grid) {
       grid.innerHTML = CATEGORIES.map(cat => `
-        <button class="category-card" style="min-height:120px" data-category="${cat.id}" aria-label="Ver ${cat.name}">
-          <span class="category-icon" style="font-size:2.5rem">${cat.icon}</span>
+        <button class="category-card has-image" style="min-height:140px" data-category="${cat.id}" aria-label="Ver ${cat.name}">
+          ${cat.image ? `<img class="category-img" src="${cat.image}" alt="${cat.name}" loading="lazy" width="200" height="100">` : `<span class="category-icon" style="font-size:2.5rem">${cat.icon}</span>`}
           <span class="category-name">${cat.name}</span>
         </button>`).join('');
     }
   }
 
+  function renderHeroCarousel() {
+    const track = document.getElementById('hero-track');
+    const dots = document.getElementById('hero-dots');
+    if (!track || !HERO_SLIDES.length) return;
+
+    track.innerHTML = HERO_SLIDES.map((slide, i) => `
+      <div class="hero-slide ${slide.gradient || 'gradient-brand'}" role="tabpanel" aria-label="${slide.title}" ${i === 0 ? '' : 'aria-hidden="true"'}>
+        <div class="hero-slide-bg" style="background-image:url('${slide.image}')"></div>
+        <div class="hero-slide-content">
+          <span class="hero-slide-badge">${slide.badge || '⚡ SuperEletroLar'}</span>
+          <h2>${slide.title}</h2>
+          <p>${slide.subtitle}</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" data-action="${slide.cta || 'explore'}">${slide.ctaLabel || 'Explorar'}</button>
+          </div>
+        </div>
+      </div>`).join('');
+
+    dots.innerHTML = HERO_SLIDES.map((_, i) => `
+      <button class="hero-dot ${i === 0 ? 'active' : ''}" data-hero-dot="${i}" aria-label="Slide ${i + 1}" role="tab"></button>
+    `).join('');
+
+    heroIndex = 0;
+    startHeroAutoplay();
+  }
+
+  function goToHeroSlide(index) {
+    const track = document.getElementById('hero-track');
+    const dots = document.querySelectorAll('.hero-dot');
+    if (!track || !HERO_SLIDES.length) return;
+
+    heroIndex = (index + HERO_SLIDES.length) % HERO_SLIDES.length;
+    track.style.transform = `translateX(-${heroIndex * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === heroIndex));
+    track.querySelectorAll('.hero-slide').forEach((s, i) => {
+      s.setAttribute('aria-hidden', i !== heroIndex);
+    });
+  }
+
+  function startHeroAutoplay() {
+    clearInterval(heroTimer);
+    heroTimer = setInterval(() => goToHeroSlide(heroIndex + 1), 5000);
+  }
+
+  function renderShowcase() {
+    const track = document.getElementById('showcase-track');
+    if (!track) return;
+
+    const items = CATEGORIES.map(cat => {
+      const product = PRODUCTS.find(p => p.category === cat.id);
+      return { ...cat, productPrice: product?.price, badge: product?.badge };
+    });
+
+    track.innerHTML = items.map(cat => `
+      <div class="showcase-item" role="listitem" data-category="${cat.id}" tabindex="0">
+        ${cat.badge ? `<span class="showcase-item-badge">${cat.badge}</span>` : ''}
+        <img src="${cat.image}" alt="${cat.name}" loading="lazy" width="200" height="140">
+        <div class="showcase-item-info">
+          <h4>${cat.icon} ${cat.name}</h4>
+          <span>${cat.description?.slice(0, 40) || 'Ver produtos'}...</span>
+        </div>
+      </div>`).join('');
+  }
+
+  function renderFavorites() {
+    const favProducts = PRODUCTS.filter(p => favorites.includes(p.id));
+    renderProducts('favorites-grid', favProducts);
+    const grid = document.getElementById('favorites-grid');
+    if (grid && !favProducts.length) {
+      grid.innerHTML = '<p style="text-align:center;color:var(--color-text-muted);padding:2rem;grid-column:1/-1">Nenhum favorito ainda. Toque no ❤️ nos produtos.</p>';
+    }
+  }
+
+  async function renderOrders() {
+    const el = document.getElementById('orders-content');
+    if (!el) return;
+
+    if (!api.getUser()) {
+      el.innerHTML = '<div class="checkout-panel"><p>Faça login para ver seus pedidos.</p><button class="btn btn-primary btn-sm" id="btn-orders-login">Entrar</button></div>';
+      return;
+    }
+
+    try {
+      const orders = await api.getOrders();
+      if (!orders.length) {
+        el.innerHTML = '<p style="text-align:center;color:var(--color-text-muted);padding:2rem">Você ainda não fez nenhum pedido.</p>';
+        return;
+      }
+      el.innerHTML = `<div class="orders-list">${orders.map(o => `
+        <div class="order-card">
+          <div class="order-card-header">
+            <strong>${o.trackingCode || o.id.slice(0, 8).toUpperCase()}</strong>
+            <span class="order-status ${o.status === 'paid' ? 'paid' : 'pending'}">${o.status === 'paid' ? '✅ Pago' : '⏳ Pendente'}</span>
+          </div>
+          <p style="font-size:0.875rem;color:var(--color-text-secondary)">${new Date(o.createdAt).toLocaleDateString('pt-BR')} · ${o.items?.length || 0} item(s)</p>
+          <p style="font-weight:700;margin-top:0.5rem">${formatPrice(o.total)}</p>
+        </div>`).join('')}</div>`;
+    } catch {
+      el.innerHTML = '<p class="form-error">Erro ao carregar pedidos.</p>';
+    }
+  }
+
   function renderAll() {
+    renderHeroCarousel();
+    renderShowcase();
     renderCategories();
     renderProducts('products-grid', PRODUCTS.slice(0, 8));
     renderProducts('offers-grid', PRODUCTS.filter(p => p.badge));
     if (activeCategory) {
       renderProducts('category-products-grid', PRODUCTS.filter(p => p.category === activeCategory));
     }
+    renderFavorites();
     renderCart();
     updateAccountView();
   }
@@ -158,10 +282,18 @@ const SuperEletroLar = (() => {
     const el = document.getElementById('product-detail-content');
     if (!el) return;
 
+    const images = currentProduct.images?.length ? currentProduct.images : [currentProduct.image];
+    const thumbs = images.map((img, i) =>
+      `<img src="${img}" alt="${currentProduct.name} - foto ${i + 1}" class="${i === 0 ? 'active' : ''}" data-gallery-thumb="${i}" loading="lazy" width="64" height="64">`
+    ).join('');
+
     el.innerHTML = `
       <div class="product-detail">
-        <div class="product-detail-gallery">
-          <img src="${currentProduct.image}" alt="${currentProduct.name}" width="600" height="600">
+        <div class="product-detail-gallery product-gallery">
+          <div class="product-gallery-main">
+            <img id="gallery-main" src="${images[0]}" alt="${currentProduct.name}" width="600" height="600">
+          </div>
+          ${images.length > 1 ? `<div class="product-gallery-thumbs">${thumbs}</div>` : ''}
         </div>
         <div class="product-detail-info">
           <span class="product-category">${CATEGORIES.find(c => c.id === currentProduct.category)?.name || ''}</span>
@@ -236,17 +368,16 @@ const SuperEletroLar = (() => {
         </div>`;
     }).join('');
 
-    const subtotal = cart.reduce((s, i) => {
-      const p = PRODUCTS.find(pr => pr.id === i.id);
-      return s + (p ? p.price * i.qty : 0);
-    }, 0);
+    const subtotal = getCartSubtotal();
+    const shipping = getShippingCost();
+    const total = subtotal + shipping;
 
     container.innerHTML = `
       <div class="cart-items">${items}</div>
       <div class="cart-summary">
         <div class="summary-row"><span>Subtotal</span><span>${formatPrice(subtotal)}</span></div>
-        <div class="summary-row"><span>Frete</span><span style="color:var(--color-accent)">Grátis</span></div>
-        <div class="summary-row total"><span>Total</span><span>${formatPrice(subtotal)}</span></div>
+        <div class="summary-row"><span>Frete</span><span style="color:var(--color-accent)">${shipping ? formatPrice(shipping) : 'Grátis'}</span></div>
+        <div class="summary-row total"><span>Total</span><span>${formatPrice(total)}</span></div>
         <button class="btn btn-primary" style="width:100%" id="btn-go-checkout">Finalizar compra</button>
       </div>`;
   }
@@ -275,10 +406,9 @@ const SuperEletroLar = (() => {
     const el = document.getElementById('checkout-content');
     if (!el) return;
 
-    const subtotal = cart.reduce((s, i) => {
-      const p = PRODUCTS.find(pr => pr.id === i.id);
-      return s + (p ? p.price * i.qty : 0);
-    }, 0);
+    const subtotal = getCartSubtotal();
+    const shipping = getShippingCost();
+    const total = getCartTotal();
 
     const steps = ['Dados', 'Endereço', 'Pagamento', 'Confirmação'];
     const stepsHTML = steps.map((s, i) =>
@@ -292,9 +422,9 @@ const SuperEletroLar = (() => {
       panelHTML = `
         <div class="checkout-panel">
           <h3>Seus dados</h3>
-          <div class="form-group"><label class="form-label" for="ck-name">Nome completo</label>
+          <div class="form-group"><label class="form-label" for="ck-name">Nome completo *</label>
             <input class="form-input" id="ck-name" value="${user?.name || ''}" required></div>
-          <div class="form-group"><label class="form-label" for="ck-email">E-mail</label>
+          <div class="form-group"><label class="form-label" for="ck-email">E-mail *</label>
             <input class="form-input" id="ck-email" type="email" value="${user?.email || ''}" required></div>
           <div class="form-group"><label class="form-label" for="ck-phone">Telefone</label>
             <input class="form-input" id="ck-phone" type="tel" value="${user?.phone || ''}" placeholder="(11) 99999-9999"></div>
@@ -304,21 +434,34 @@ const SuperEletroLar = (() => {
       panelHTML = `
         <div class="checkout-panel">
           <h3>Endereço de entrega</h3>
-          <div class="form-group"><label class="form-label" for="ck-cep">CEP</label>
-            <input class="form-input" id="ck-cep" placeholder="00000-000" maxlength="9"></div>
-          <div class="form-group"><label class="form-label" for="ck-street">Rua</label>
-            <input class="form-input" id="ck-street"></div>
+          <div class="form-group"><label class="form-label" for="ck-cep">CEP *</label>
+            <input class="form-input" id="ck-cep" placeholder="00000-000" maxlength="9" required></div>
+          <div class="form-group"><label class="form-label" for="ck-street">Rua *</label>
+            <input class="form-input" id="ck-street" required></div>
           <div class="form-row">
-            <div class="form-group"><label class="form-label" for="ck-number">Número</label>
-              <input class="form-input" id="ck-number"></div>
+            <div class="form-group"><label class="form-label" for="ck-number">Número *</label>
+              <input class="form-input" id="ck-number" required></div>
             <div class="form-group"><label class="form-label" for="ck-comp">Complemento</label>
               <input class="form-input" id="ck-comp"></div>
           </div>
           <div class="form-row">
-            <div class="form-group"><label class="form-label" for="ck-city">Cidade</label>
-              <input class="form-input" id="ck-city"></div>
-            <div class="form-group"><label class="form-label" for="ck-state">UF</label>
-              <input class="form-input" id="ck-state" maxlength="2"></div>
+            <div class="form-group"><label class="form-label" for="ck-city">Cidade *</label>
+              <input class="form-input" id="ck-city" required></div>
+            <div class="form-group"><label class="form-label" for="ck-state">UF *</label>
+              <input class="form-input" id="ck-state" maxlength="2" required></div>
+          </div>
+          <h4 style="margin:1rem 0 0.5rem;font-size:0.9rem">Opções de frete</h4>
+          <div class="shipping-options">
+            <label class="shipping-option ${selectedShipping === 'standard' ? 'selected' : ''}" data-shipping="standard">
+              <input type="radio" name="shipping" value="standard" ${selectedShipping === 'standard' ? 'checked' : ''}>
+              <div class="shipping-option-info"><strong>📦 Entrega Padrão</strong><small>5 a 10 dias úteis</small></div>
+              <span class="shipping-option-price">Grátis</span>
+            </label>
+            <label class="shipping-option ${selectedShipping === 'express' ? 'selected' : ''}" data-shipping="express">
+              <input type="radio" name="shipping" value="express" ${selectedShipping === 'express' ? 'checked' : ''}>
+              <div class="shipping-option-info"><strong>🚀 Entrega Expressa</strong><small>2 a 4 dias úteis</small></div>
+              <span class="shipping-option-price">${formatPrice(49.90)}</span>
+            </label>
           </div>
           <button class="btn btn-primary" id="ck-next-2" style="width:100%">Continuar</button>
         </div>`;
@@ -356,10 +499,10 @@ const SuperEletroLar = (() => {
             </div>
             <div class="form-group"><label class="form-label">Parcelas</label>
               <select class="form-input" id="ck-installments">
-                ${Array.from({ length: 12 }, (_, i) => `<option value="${i + 1}">${i + 1}x de ${formatPrice(subtotal / (i + 1))}</option>`).join('')}
+                ${Array.from({ length: 12 }, (_, i) => `<option value="${i + 1}">${i + 1}x de ${formatPrice(total / (i + 1))}</option>`).join('')}
               </select></div>
           </div>
-          <button class="btn btn-primary" id="ck-pay" style="width:100%;margin-top:1rem">Pagar ${formatPrice(subtotal)}</button>
+          <button class="btn btn-primary" id="ck-pay" style="width:100%;margin-top:1rem">Pagar ${formatPrice(total)}</button>
         </div>`;
     } else if (checkoutStep === 4) {
       panelHTML = `
@@ -376,23 +519,22 @@ const SuperEletroLar = (() => {
     el.innerHTML = `
       <div class="checkout-steps">${stepsHTML}</div>
       <div class="cart-summary" style="margin-bottom:1.5rem;position:static">
-        <div class="summary-row total"><span>Total</span><span>${formatPrice(subtotal)}</span></div>
+        <div class="summary-row"><span>Subtotal</span><span>${formatPrice(subtotal)}</span></div>
+        <div class="summary-row"><span>Frete</span><span>${shipping ? formatPrice(shipping) : 'Grátis'}</span></div>
+        <div class="summary-row total"><span>Total</span><span>${formatPrice(total)}</span></div>
       </div>
       ${panelHTML}`;
   }
 
   async function processPayment() {
-    const subtotal = cart.reduce((s, i) => {
-      const p = PRODUCTS.find(pr => pr.id === i.id);
-      return s + (p ? p.price * i.qty : 0);
-    }, 0);
+    const total = getCartTotal();
 
     const method = document.querySelector('input[name="payment"]:checked')?.value || 'pix';
 
     try {
       const order = await api.createOrder({
         items: cart,
-        shipping: 'standard',
+        shipping: selectedShipping,
         customer: {
           name: document.getElementById('ck-name')?.value,
           email: document.getElementById('ck-email')?.value,
@@ -411,7 +553,7 @@ const SuperEletroLar = (() => {
       currentOrder = order;
 
       if (method === 'pix') {
-        currentPayment = await api.createPixPayment(order.id, subtotal);
+        currentPayment = await api.createPixPayment(order.id, total);
         const el = document.getElementById('checkout-content');
         el.innerHTML = `
           <div class="checkout-panel">
@@ -431,7 +573,7 @@ const SuperEletroLar = (() => {
       if (method === 'card') {
         const result = await api.payWithCard({
           orderId: order.id,
-          amount: subtotal,
+          amount: total,
           cardNumber: document.getElementById('ck-card')?.value,
           cardName: document.getElementById('ck-card-name')?.value,
           expiry: document.getElementById('ck-expiry')?.value,
@@ -440,7 +582,7 @@ const SuperEletroLar = (() => {
         });
         currentOrder.trackingCode = result.trackingCode;
       } else if (method === 'mercadopago') {
-        const result = await api.payWithMercadoPago(order.id, subtotal);
+        const result = await api.payWithMercadoPago(order.id, total);
         currentOrder.trackingCode = result.trackingCode || `SEL${Date.now().toString(36).toUpperCase()}`;
       }
 
@@ -527,6 +669,8 @@ const SuperEletroLar = (() => {
 
     if (view === 'cart') renderCart();
     if (view === 'checkout') { checkoutStep = 1; renderCheckout(); }
+    if (view === 'orders') renderOrders();
+    if (view === 'favorites') renderFavorites();
     if (view === 'home') document.title = 'SuperEletroLar — Tecnologia que transforma seu lar';
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -645,6 +789,43 @@ const SuperEletroLar = (() => {
     if (!scroll) return;
     prev?.addEventListener('click', () => scroll.scrollBy({ left: -200, behavior: 'smooth' }));
     next?.addEventListener('click', () => scroll.scrollBy({ left: 200, behavior: 'smooth' }));
+
+    document.getElementById('hero-prev')?.addEventListener('click', () => { goToHeroSlide(heroIndex - 1); startHeroAutoplay(); });
+    document.getElementById('hero-next')?.addEventListener('click', () => { goToHeroSlide(heroIndex + 1); startHeroAutoplay(); });
+
+    document.getElementById('hero-dots')?.addEventListener('click', (e) => {
+      const dot = e.target.closest('[data-hero-dot]');
+      if (dot) { goToHeroSlide(Number(dot.dataset.heroDot)); startHeroAutoplay(); }
+    });
+
+    const showcase = document.getElementById('showcase-track');
+    if (showcase) {
+      let showcaseTimer = setInterval(() => {
+        if (showcase.scrollLeft + showcase.clientWidth >= showcase.scrollWidth - 10) {
+          showcase.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          showcase.scrollBy({ left: 220, behavior: 'smooth' });
+        }
+      }, 4000);
+      showcase.addEventListener('mouseenter', () => clearInterval(showcaseTimer));
+    }
+  }
+
+  async function lookupCep(cep) {
+    const digits = cep.replace(/\D/g, '');
+    if (digits.length !== 8) return;
+    try {
+      const data = await api.getCep(digits);
+      const street = document.getElementById('ck-street');
+      const city = document.getElementById('ck-city');
+      const state = document.getElementById('ck-state');
+      if (street && data.street) street.value = data.street;
+      if (city && data.city) city.value = data.city;
+      if (state && data.state) state.value = data.state;
+      document.getElementById('ck-number')?.focus();
+    } catch {
+      showToast('CEP não encontrado');
+    }
   }
 
   /* ── Events ── */
@@ -664,14 +845,19 @@ const SuperEletroLar = (() => {
       navigateTo('home');
     });
 
-    document.querySelectorAll('[data-action]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const a = btn.dataset.action;
+    document.addEventListener('click', (e) => {
+      const actionBtn = e.target.closest('[data-action]');
+      if (actionBtn) {
+        const a = actionBtn.dataset.action;
         if (a === 'explore') { viewHistory = ['home']; navigateTo('home', false); }
         if (a === 'offers') navigateTo('offers');
         if (a === 'categories') navigateTo('categories');
-      });
+      }
     });
+
+    document.addEventListener('blur', (e) => {
+      if (e.target.id === 'ck-cep') lookupCep(e.target.value);
+    }, true);
 
     document.getElementById('search-input')?.addEventListener('input', async (e) => {
       const q = e.target.value;
@@ -717,9 +903,54 @@ const SuperEletroLar = (() => {
 
       if (e.target.id === 'btn-go-checkout') { navigateTo('checkout'); return; }
 
-      if (e.target.id === 'ck-next-1') { checkoutStep = 2; renderCheckout(); return; }
-      if (e.target.id === 'ck-next-2') { checkoutStep = 3; renderCheckout(); return; }
+      if (e.target.id === 'btn-orders-login') { showAuthModal('login'); return; }
+
+      if (e.target.id === 'ck-next-1') {
+        const name = document.getElementById('ck-name')?.value?.trim();
+        const email = document.getElementById('ck-email')?.value?.trim();
+        if (!name || !email) { showToast('Preencha nome e e-mail'); return; }
+        checkoutStep = 2; renderCheckout(); return;
+      }
+      if (e.target.id === 'ck-next-2') {
+        const cep = document.getElementById('ck-cep')?.value?.trim();
+        const street = document.getElementById('ck-street')?.value?.trim();
+        const number = document.getElementById('ck-number')?.value?.trim();
+        if (!cep || !street || !number) { showToast('Preencha CEP, rua e número'); return; }
+        checkoutStep = 3; renderCheckout(); return;
+      }
       if (e.target.id === 'ck-pay') { await processPayment(); return; }
+
+      const shipOpt = e.target.closest('[data-shipping]');
+      if (shipOpt) {
+        selectedShipping = shipOpt.dataset.shipping;
+        document.querySelectorAll('.shipping-option').forEach(o => o.classList.remove('selected'));
+        shipOpt.classList.add('selected');
+        renderCheckout();
+        return;
+      }
+
+      const thumb = e.target.closest('[data-gallery-thumb]');
+      if (thumb && currentProduct) {
+        const idx = Number(thumb.dataset.galleryThumb);
+        const images = currentProduct.images?.length ? currentProduct.images : [currentProduct.image];
+        const main = document.getElementById('gallery-main');
+        if (main && images[idx]) {
+          main.src = images[idx];
+          document.querySelectorAll('[data-gallery-thumb]').forEach(t => t.classList.remove('active'));
+          thumb.classList.add('active');
+        }
+        return;
+      }
+
+      const showcase = e.target.closest('.showcase-item');
+      if (showcase) {
+        activeCategory = showcase.dataset.category;
+        const c = CATEGORIES.find(x => x.id === activeCategory);
+        document.getElementById('category-products-title').textContent = `${c?.icon || ''} ${c?.name || ''}`;
+        renderProducts('category-products-grid', PRODUCTS.filter(p => p.category === activeCategory));
+        navigateTo('categories');
+        return;
+      }
 
       if (e.target.id === 'btn-copy-pix') {
         navigator.clipboard?.writeText(currentPayment?.pixCode || '');

@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "badge": "⚡ Novidade",
+    "title": "Tecnologia que transforma seu lar",
+    "subtitle": "Eletrodomésticos, linha branca e eletrônicos para a família brasileira.",
+    "image": "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=1200&q=80",
+    "gradient": "gradient-brand",
+    "cta": "explore",
+    "ctaLabel": "Explorar produtos"
+  },
+  {
+    "id": 2,
+    "badge": "🔥 Ofertas",
+    "title": "Até 40% OFF em Linha Branca",
+    "subtitle": "Geladeiras, fogões, lavadoras e muito mais com frete grátis.",
+    "image": "https://images.unsplash.com/photo-1571175443880-49e1b58a9b91?w=1200&q=80",
+    "gradient": "gradient-warm",
+    "cta": "offers",
+    "ctaLabel": "Ver ofertas"
+  },
+  {
+    "id": 3,
+    "badge": "📺 Smart TVs",
+    "title": "Smart TVs 4K em 12x sem juros",
+    "subtitle": "Samsung, LG, TCL e as melhores marcas com entrega rápida.",
+    "image": "https://images.unsplash.com/photo-1593359677877-bcde3a3d7718?w=1200&q=80",
+    "gradient": "gradient-cool",
+    "cta": "categories",
+    "ctaLabel": "Ver categorias"
+  },
+  {
+    "id": 4,
+    "badge": "📱 Eletrônicos",
+    "title": "Celulares, notebooks e áudio",
+    "subtitle": "Os melhores gadgets com parcelamento e garantia estendida.",
+    "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=1200&q=80",
+    "gradient": "gradient-electric",
+    "cta": "explore",
+    "ctaLabel": "Comprar agora"
+  },
+  {
+    "id": 5,
+    "badge": "🔧 Eletroportáteis",
+    "title": "Máquinas para o dia a dia",
+    "subtitle": "Aspiradores, cafeteiras, fritadeiras e muito mais para sua casa.",
+    "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80",
+    "gradient": "gradient-cool",
+    "cta": "categories",
+    "ctaLabel": "Descobrir"
+  }
+]

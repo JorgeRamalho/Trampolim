@@ -1,4 +1,4 @@
-const CACHE_NAME = 'super-eletrolar-v1';
+const CACHE_NAME = 'super-eletrolar-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -7,6 +7,8 @@ const STATIC_ASSETS = [
   '/js/api.js',
   '/assets/logo.svg',
   '/manifest.json',
+  '/robots.txt',
+  '/sitemap.xml',
 ];
 
 self.addEventListener('install', (event) => {
@@ -27,18 +29,36 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const { request } = event;
+  const url = new URL(request.url);
 
-  if (request.url.includes('/api/')) {
+  if (request.method !== 'GET') return;
+
+  if (url.pathname.startsWith('/api/')) {
     event.respondWith(
       fetch(request)
         .then((response) => {
-          if (response.ok && request.method === 'GET') {
+          if (response.ok) {
             const clone = response.clone();
             caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
           }
           return response;
         })
         .catch(() => caches.match(request))
+    );
+    return;
+  }
+
+  if (url.pathname.startsWith('/app/')) {
+    event.respondWith(
+      caches.match(request).then((cached) =>
+        cached || fetch(request).then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+          }
+          return response;
+        })
+      )
     );
     return;
   }
@@ -51,7 +71,7 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
         }
         return response;
-      });
+      }).catch(() => cached);
       return cached || fetched;
     })
   );
@@ -64,6 +84,7 @@ self.addEventListener('push', (event) => {
       body: data.body,
       icon: '/assets/logo.svg',
       badge: '/assets/logo.svg',
+      vibrate: [200, 100, 200],
     })
   );
 });

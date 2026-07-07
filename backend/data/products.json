@@ -253,5 +253,89 @@
     "specs": { "capacidade": "11kg", "tipo": "Lava e Seca", "motor": "Inverter", "programas": "15" },
     "stock": 7,
     "freeShipping": true
+  },
+  {
+    "id": 13,
+    "name": "Aspirador Robô Inteligente",
+    "slug": "aspirador-robo-inteligente",
+    "category": "aspiradores",
+    "brand": "Xiaomi",
+    "price": 1899.90,
+    "oldPrice": 2499.90,
+    "rating": 4.7,
+    "reviews": 156,
+    "badge": "-24%",
+    "emoji": "🌀",
+    "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80"
+    ],
+    "description": "Aspirador robô com mapeamento a laser, sucção de 4000Pa e controle via app. Ideal para pisos e carpetes.",
+    "specs": { "sucao": "4000Pa", "bateria": "180min", "mapeamento": "Laser", "wifi": "Sim" },
+    "stock": 14,
+    "freeShipping": true
+  },
+  {
+    "id": 14,
+    "name": "Cafeteira Espresso Automática",
+    "slug": "cafeteira-espresso-automatica",
+    "category": "cafeteiras",
+    "brand": "Nespresso",
+    "price": 899.90,
+    "oldPrice": 1199.90,
+    "rating": 4.6,
+    "reviews": 203,
+    "badge": "-25%",
+    "emoji": "☕",
+    "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80"
+    ],
+    "description": "Cafeteira espresso automática com sistema de cápsulas, espuma de leite integrada e design compacto.",
+    "specs": { "pressao": "19 bar", "capacidade": "1L", "tipo": "Cápsulas", "cor": "Preto" },
+    "stock": 30,
+    "freeShipping": true
+  },
+  {
+    "id": 15,
+    "name": "Air Fryer 5.5L Digital",
+    "slug": "air-fryer-55l-digital",
+    "category": "fritadeiras",
+    "brand": "Mondial",
+    "price": 449.90,
+    "oldPrice": 599.90,
+    "rating": 4.5,
+    "reviews": 412,
+    "badge": "-25%",
+    "emoji": "🍳",
+    "image": "https://images.unsplash.com/photo-1585515320310-259814833e62?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1585515320310-259814833e62?w=800&q=80"
+    ],
+    "description": "Fritadeira elétrica sem óleo com capacidade de 5.5 litros, painel digital e 8 programas pré-definidos.",
+    "specs": { "capacidade": "5.5L", "potencia": "1700W", "programas": "8", "timer": "60min" },
+    "stock": 55,
+    "freeShipping": true
+  },
+  {
+    "id": 16,
+    "name": "Soundbar 5.1 Dolby Atmos",
+    "slug": "soundbar-51-dolby-atmos",
+    "category": "audio",
+    "brand": "JBL",
+    "price": 2199.00,
+    "oldPrice": 2899.00,
+    "rating": 4.8,
+    "reviews": 178,
+    "badge": "-24%",
+    "emoji": "🔊",
+    "image": "https://images.unsplash.com/photo-1545454675-3531b543be6d?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1545454675-3531b543be6d?w=800&q=80"
+    ],
+    "description": "Soundbar 5.1 com subwoofer sem fio, Dolby Atmos e conexão HDMI eARC. Experiência cinematográfica em casa.",
+    "specs": { "canais": "5.1", "potencia": "620W", "dolby": "Atmos", "conexao": "HDMI eARC" },
+    "stock": 11,
+    "freeShipping": true
   }
 ]

@@ -54,5 +54,33 @@
     "icon": "💻",
     "description": "Notebooks para trabalho, estudo e entretenimento",
     "image": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&q=80"
+  },
+  {
+    "id": "aspiradores",
+    "name": "Aspiradores",
+    "icon": "🌀",
+    "description": "Aspiradores verticais, robôs e portáteis",
+    "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80"
+  },
+  {
+    "id": "cafeteiras",
+    "name": "Cafeteiras",
+    "icon": "☕",
+    "description": "Cafeteiras espresso, cápsulas e filtro",
+    "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80"
+  },
+  {
+    "id": "fritadeiras",
+    "name": "Fritadeiras",
+    "icon": "🍳",
+    "description": "Air fryers e fritadeiras elétricas sem óleo",
+    "image": "https://images.unsplash.com/photo-1585515320310-259814833e62?w=600&q=80"
+  },
+  {
+    "id": "audio",
+    "name": "Áudio",
+    "icon": "🔊",
+    "description": "Caixas de som, soundbars e fones bluetooth",
+    "image": "https://images.unsplash.com/photo-1545454675-3531b543be6d?w=600&q=80"
   }
 ]
